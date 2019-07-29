@@ -1,0 +1,40 @@
+
+1)download Spring Boot Rest example
+2)add the following swagger dependencies in pom.xml
+
+        <dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.2.2</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>2.2.2</version>
+		</dependency>
+3)create a new java class (SwaggerConfig.java) for Swagger Configuration (@Configuration, @EnableSwagger2)
+
+    @Bean
+	public Docket postsApi() {
+		return new Docket(DocumentationType.SWAGGER_2).groupName("public-api")
+				.apiInfo(apiInfo()).select().paths(postPaths()).build();
+	}
+
+	private Predicate<String> postPaths() {
+		return or(regex("/api/posts.*"), regex("/api/javainuse.*"));
+	}
+
+	private ApiInfo apiInfo() {
+		return new ApiInfoBuilder().title("JavaInUse API")
+				.description("JavaInUse API reference for developers")
+				.termsOfServiceUrl("http://javainuse.com")
+				.contact("javainuse@gmail.com").license("JavaInUse License")
+				.licenseUrl("javainuse@gmail.com").version("1.0").build();
+	}
+	
+4)run the project
+5)test the webservice 
+  http://localhost:8080/api/javainuse
+6)open Swagger UI and check the documentation and test the webservice (Try it out)
+  http://localhost:8080/swagger-ui.html
+  
